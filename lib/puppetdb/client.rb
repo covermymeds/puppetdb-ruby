@@ -71,7 +71,13 @@ module PuppetDB
         self.class.connection_adapter(FixSSLConnectionAdapter)
       end
 
-      self.class.base_uri(server + '/v' + version.to_s())
+      if version = 4
+        version_uri = '/pdb/query/v'
+      else
+        version_uri = '/v'
+      end
+
+      self.class.base_uri(server + version_uri + version.to_s())
     end
 
     def raise_if_error(response)
